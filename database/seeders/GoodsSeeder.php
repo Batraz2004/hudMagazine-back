@@ -7,10 +7,13 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+//use App\Models\Goods;
 class GoodsSeeder extends Seeder
 {
     private $count = 10;
+    private $types = ['Ручки','Карандаши','Краски','Кисти'];
+    private $names = ['abba','blueSky','ddd','jk'];
+
     /**
      * Run the database seeds.
      *
@@ -18,11 +21,19 @@ class GoodsSeeder extends Seeder
      */
     public function run()
     {
+        // $goods = Goods::get();
+        // foreach($goods as $val)
+        // {
+        //     $val->delete();
+        // }
         for($i = 0 ; $i<$this->count; $i++){
-            DB::table('Goods')->insert(['name'=>Str::random(10),
-                'Type'=>Str::random(10),
-                'count'=>rand(1,10),
-                'price'=>rand(500,4500)]);
+            DB::table('Goods')->insert([
+                //'name'=>Str::random(10),
+                'name' => $this->names[rand(0,count($this->names)-1)],
+                'Type' => $this->types[rand(0,count($this->types)-1)],
+                'count' => rand(1,10),
+                'price' => rand(500,4500)]);
         }
+
     }
 }
