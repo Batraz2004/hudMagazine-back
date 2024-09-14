@@ -1,8 +1,8 @@
 <?php
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\GoodsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,3 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/test', function () {
     return 'Hello World';
 });
+
+Route::get('/goods/list',[GoodsController::class,'getList']);
+
