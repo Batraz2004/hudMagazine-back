@@ -9,15 +9,8 @@ use App\Models\User;
 
 class GoodsController extends Controller
 {
-    public function getList()
+    public function getList(Request $request)
     {   
-        if(auth()->check())
-        {
-            $goods = Goods::get()->toArray();
-            return response()->json(['succes'=>true,'data'=>$goods,'code'=>200]);
-        }
-        else
-            return response()->json(['succes'=>false,'date'=>[],'code'=>401]);
+        return response()->json(['succes'=>true,'data'=>$goods,'code'=>200]);
     }
-
 }

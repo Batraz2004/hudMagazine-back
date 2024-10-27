@@ -15,26 +15,32 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
+//sunctum
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 // Route::post('registration',[UserController,'registration']);
 // Route::post('auth',[UserController,'auth']);
-Route::post('/auth',[AuthenticatedSessionController::class,'store']);
-Route::post('/register',[RegisteredUserController::class,'store']);
-Route::post('/logout',[AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
-Route::get('/test', function () {
-    return 'Hello World';
+//Breeze:
+Route::prefix('user')->group(function () {
+    Route::post('/auth',[AuthenticatedSessionController::class,'store']);
+    Route::post('/register',[RegisteredUserController::class,'store']);
+    Route::post('/logout',[AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
-
-Route::middleware('auth:sanctum')->get('/goods/list',[GoodsController::class,'getList']);
-//или:
-// Route::get('/goods/list',[GoodsController::class,'getList']);
+// Route::middleware('auth:sanctum')->get('/goods/list',[GoodsController::class,'getList']);
 //или
 // Route::middleware('auth:sanctum')->group(function () {
 //     Route::get('/goods/list',[GoodsController::class,'getList']);
 // });
+//or custom middleware:
+Route::group(['middleware'=>['auth:sanctum','checkAuthTokens']],function(){
+    Route::get('/testAuthToken',function(){
+        return 'its work';
+});
+});
+Route::get('/test', function () {
+    return 'Hello World';
+});
+
+Route::get('/goods/list',[GoodsController::class,'getList']);
