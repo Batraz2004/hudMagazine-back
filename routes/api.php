@@ -16,9 +16,11 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+
 // Route::post('registration',[UserController,'registration']);
 // Route::post('auth',[UserController,'auth']);
 Route::post('/auth',[AuthenticatedSessionController::class,'store']);
@@ -27,4 +29,12 @@ Route::post('/logout',[AuthenticatedSessionController::class, 'destroy'])->middl
 Route::get('/test', function () {
     return 'Hello World';
 });
-Route::get('/goods/list',[GoodsController::class,'getList']);
+
+
+Route::middleware('auth:sanctum')->get('/goods/list',[GoodsController::class,'getList']);
+//или:
+// Route::get('/goods/list',[GoodsController::class,'getList']);
+//или
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/goods/list',[GoodsController::class,'getList']);
+// });

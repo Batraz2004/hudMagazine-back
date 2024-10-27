@@ -41,6 +41,7 @@ class AuthenticatedSessionController extends Controller
                 'password'=>['required', 'string']
             ]);
             
+            //attempt ищет пользователя . $reg->only('email', 'password') достаем два поля из массива
             if (!Auth::attempt($reg->only('email', 'password'))) {
                 return response()->json(['message' => 'Invalid login credentials'], 401);
             }
