@@ -23,11 +23,11 @@ class CheckApiToken
             ->get();
             //->orderByDesc()->firs();//если нужно по свежему(последнему) токену
         // echo '<pre>'.htmlentities(print_r('f', true)).'</pre>';exit();
-        if(!$personal_acces_tokens)
+        if(empty($personal_acces_tokens->toArray()))
         {
             return response()->json(['succes'=>false,'date'=>[],'code'=>401],401);
         }
-        
+
         /*
         Команда return $next($request); 
         в контексте Laravel означает передачу управления следующему middleware

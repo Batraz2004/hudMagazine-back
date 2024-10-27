@@ -11,6 +11,8 @@ class GoodsController extends Controller
 {
     public function getList(Request $request)
     {   
+        $goods = Goods::get()->toArray();
         return response()->json(['succes'=>true,'data'=>$goods,'code'=>200]);
     }
+
 }
