@@ -21,6 +21,7 @@ class GoodsSeeder extends Seeder
      */
     public function run()
     {
+        //если нада удалить)
         // $goods = Goods::get();
         // foreach($goods as $val)
         // {
