@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class GoodsSeeder extends Seeder
 {
     private $count = 10;
-    private $types = ['Ручки','Карандаши','Краски','Кисти','холсты','альбомы','Блакноты'];
+    private $types = ['Ручки','Карандаши','Краски','Кисти','Холсты','Альбомы','Блакноты'];
     private $category = ['...'];
     private $names = ['abba','blueSky','ddd','jk'];
 
