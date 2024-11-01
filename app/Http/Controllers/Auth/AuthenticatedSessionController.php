@@ -48,11 +48,13 @@ class AuthenticatedSessionController extends Controller
         }
         catch(Exception $e)
         {
-            echo '<pre>'.htmlentities(print_r('произошла ошибка'.$e->getmessage(), true)).'</pre>';exit();
+            //echo '<pre>'.htmlentities(print_r('произошла ошибка'.$e->getmessage(), true)).'</pre>';exit();
+            return response()->json(['message' => 'произошла ошибка','status'=>422], 422);
         }
 
         $user = Auth::user();
         $token = $user->createToken('auth_token')->plainTextToken;
+        $token = explode('|',$token)[1];
         // $user->remember_token = $token;
         // $user->save(); //не надо так как токены хранятся в таблицы personal_tokens
 

@@ -34,7 +34,7 @@ Route::prefix('user')->group(function () {
 //     Route::get('/goods/list',[GoodsController::class,'getList']);
 // });
 //or custom middleware:
-Route::group(['middleware'=>['checkAuthTokens']],function(){
+Route::group(['middleware'=>['checkAuthTokens']],function(){//или 'auth:sanctum'
     Route::get('/testAuthToken',function(){
         return 'its work';
 });

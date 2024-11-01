@@ -1,3 +1,4 @@
+
 <?php
 
 namespace Database\Seeders;
@@ -12,6 +13,7 @@ class GoodsSeeder extends Seeder
 {
     private $count = 10;
     private $types = ['Ручки','Карандаши','Краски','Кисти'];
+    private $category = ['...'];
     private $names = ['abba','blueSky','ddd','jk'];
 
     /**

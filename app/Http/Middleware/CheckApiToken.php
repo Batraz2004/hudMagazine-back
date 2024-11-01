@@ -18,11 +18,12 @@ class CheckApiToken
     public function handle(Request $request, Closure $next)
     {
         $token = $request->bearerToken();
+
         $personal_acces_tokens = DB::table('personal_access_tokens')
             ->where('token',hash('sha256',$token))//токены захешированы
             ->get();
-            //->orderByDesc()->firs();//если нужно по свежему(последнему) токену
-        // echo '<pre>'.htmlentities(print_r('f', true)).'</pre>';exit();
+            //->orderByDesc()->first();//если нужно по свежему(последнему) токену
+
         if(empty($personal_acces_tokens->toArray()))
         {
             return response()->json(['succes'=>false,'date'=>[],'code'=>401],401);
