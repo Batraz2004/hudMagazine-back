@@ -3,8 +3,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoodsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Models\Category;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,3 +47,6 @@ Route::get('/test', function () {
 });
 
 Route::get('/goods/list',[GoodsController::class,'getList']);
+Route::prefix('category')->group(function(){
+    Route::get('/list',[CategoryController::class,'getlist']);
+});
