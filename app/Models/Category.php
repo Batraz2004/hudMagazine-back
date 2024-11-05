@@ -20,6 +20,6 @@ class Category extends Model
 
     public function childrens()
     {
-        return $this->hasOne(Category::class,'parent_id')->with('products');
+        return $this->hasMany(Category::class,'parent_id')->with('products');
     }
 }

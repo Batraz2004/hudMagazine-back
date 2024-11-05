@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models;
 use App\Models\Category;
+//use App\Http\Resources\CategoryResource;
 use Exception;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
