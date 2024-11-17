@@ -24,29 +24,34 @@ use App\Models\Category;
 // });
 // Route::post('registration',[UserController,'registration']);
 // Route::post('auth',[UserController,'auth']);
+//Route::get('/test', function () {
+    // return 'Hello World';
+// });
+// Route::middleware('auth:sanctum')->get('/goods/list',[GoodsController::class,'getList']);
+//или
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/goods/list',[GoodsController::class,'getList']);
+// });
+
 //Breeze:
 Route::prefix('user')->group(function () {
     Route::post('/auth',[AuthenticatedSessionController::class,'store']);
     Route::post('/register',[RegisteredUserController::class,'store']);
     Route::post('/logout',[AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
 });
-
-// Route::middleware('auth:sanctum')->get('/goods/list',[GoodsController::class,'getList']);
-//или
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('/goods/list',[GoodsController::class,'getList']);
-// });
-//or custom middleware:
+//custom middleware:
 Route::group(['middleware'=>['checkAuthTokens']],function(){//или 'auth:sanctum'
     Route::get('/testAuthToken',function(){
         return 'its work';
-});
-});
-Route::get('/test', function () {
-    return 'Hello World';
+    });
+    Route::post('category/create-new-category',[CategoryController::class,'createCategory']);
 });
 
-Route::get('/goods/list',[GoodsController::class,'getList']);
+
+Route::prefix('goods')->group(function(){
+    Route::get('/list',[GoodsController::class,'getList']);
+});
 Route::prefix('category')->group(function(){
     Route::get('/list',[CategoryController::class,'getlist']);
+    //Route::post('/create-new-category',[CategoryController::class,'createCategory']);
 });
