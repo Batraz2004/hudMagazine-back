@@ -53,5 +53,4 @@ Route::prefix('goods')->group(function(){
 });
 Route::prefix('category')->group(function(){
     Route::get('/list',[CategoryController::class,'getlist']);
-    //Route::post('/create-new-category',[CategoryController::class,'createCategory']);
 });

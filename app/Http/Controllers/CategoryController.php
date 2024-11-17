@@ -30,9 +30,27 @@ class CategoryController extends Controller
 
     public function createCategory(Request $reguest)
     {
-        //проверка на поставщика isSupplier
-        //beta : 
-        echo '<pre>'.htmlentities(print_r("не авторизован", true)).'</pre>';exit();
+        try{
+            //проверка на поставщика isSupplier по email
+            if(empty($reguest->category_name)||empty($reguest->description))
+                throw new Exception("отсутсвует название или описание категории");
 
+            $category = new Category();
+            $category->title = $reguest->category_name;
+            $category->description = $reguest->description;
+            $category->image_path = $reguest->image;
+            $category->slug = $reguest->slug;
+            $category->save();
+
+            return response()->json([
+                'success'=>true,
+                'data'=>'категория добавлена',
+                'code'=>200
+            ],200);
+        }
+        catch(Exception $e)
+        {
+            echo '<pre>'.htmlentities(print_r("произошла ошибка:". $e->getMessage(), true)).'</pre>';exit();
+        }
     }
 }
