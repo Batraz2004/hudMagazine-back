@@ -53,7 +53,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         $token = $user->createToken('auth_token')->plainTextToken;//из класса HasApiTokens который подключен в модели user
-        $token = explode('|',$token)[1]
+        $token = explode('|',$token)[1];
         $user->remember_token = $token;
         $user->save();
         //standart logic:
