@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\Suppliers;
+use Exception;
 
 use function Pest\Laravel\json;
 
@@ -46,11 +47,31 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
             //для поставщика:
-            // if($reques->isSupplier) 
+            if((string)$request->isSupplier == "true")
+            {
+                $supplier = Suppliers::create([
+                    'user_id' => $user->id,
+                    'company_name' => $request->supplier_company_name,
+                    'contact_person' => $request->supplier_contact_person,
+                    'company_adress' => $request->supplier_company_adress,
+                    'bank_name' => $request->supplier_bank_name,
+                ]);
+            } 
         }
         catch(Exception $e)
         {
-            echo '<pre>'.htmlentities(print_r('произошла ошибка:'.$e->getmessage(), true)).'</pre>';exit();
+            if($e->getCode() === 0)
+            {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'произошла ошибка:'.$e->getmessage()],500);
+            }
+            else
+            {
+                return response()->json([
+                    'status' => $e->getCode(),
+                    'message' => 'произошла ошибка:'.$e->getmessage()],$e->getCode());
+            }
         }
         event(new Registered($user));
 
@@ -61,6 +82,7 @@ class RegisteredUserController extends Controller
         //standart logic:
             
         /*
+        //изначальная логика для возвращения на страницу сайта после авторизации 
         Auth::login($user);
         
         return redirect(RouteServiceProvider::HOME);*/

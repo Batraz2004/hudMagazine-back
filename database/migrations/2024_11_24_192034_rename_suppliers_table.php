@@ -13,10 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('Category', function (Blueprint $table) {
-            $table->unsignedBigInteger('supplier_id');
-            $table->foreignId('supplier_id')->references('id')->on('suppliers');
-        });
+        Schema::rename('suppliers', 'Suppliers');
     }
 
     /**
@@ -26,8 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('Category', function (Blueprint $table) {
-            $table->dropColumn('supplier_id');
-        });
+        Schema::rename('Suppliers', 'suppliers');
     }
 };
