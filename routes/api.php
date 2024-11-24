@@ -22,8 +22,6 @@ use App\Models\Category;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-// Route::post('registration',[UserController,'registration']);
-// Route::post('auth',[UserController,'auth']);
 //Route::get('/test', function () {
     // return 'Hello World';
 // });
@@ -40,13 +38,12 @@ Route::prefix('user')->group(function () {
     Route::post('/logout',[AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
 });
 //custom middleware:
-Route::group(['middleware'=>['checkAuthTokens']],function(){//или 'auth:sanctum'
+Route::group(['middleware'=>['checkAuthTokens']],function(){
     Route::get('/testAuthToken',function(){
         return 'its work';
     });
     Route::post('category/create-new-category',[CategoryController::class,'createCategory']);
 });
-
 
 Route::prefix('goods')->group(function(){
     Route::get('/list',[GoodsController::class,'getList']);

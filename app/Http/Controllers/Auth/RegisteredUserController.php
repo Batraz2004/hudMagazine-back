@@ -45,6 +45,8 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+            //для поставщика:
+            // if($reques->isSupplier) 
         }
         catch(Exception $e)
         {
