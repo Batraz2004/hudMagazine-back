@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+
             //для поставщика:
             if((string)$request->isSupplier == "true")
             {
@@ -56,6 +57,8 @@ class RegisteredUserController extends Controller
                     'company_adress' => $request->supplier_company_adress,
                     'bank_name' => $request->supplier_bank_name,
                 ]);
+                $user->is_supplier = 1;
+                $user->save();
             } 
         }
         catch(Exception $e)
@@ -88,8 +91,8 @@ class RegisteredUserController extends Controller
         return redirect(RouteServiceProvider::HOME);*/
         //for token:
         return response()->json([
-            'status' => $token,
+            'succes_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user]);
+            'user' => $user],200);
     }
 }

@@ -26,7 +26,7 @@ class CheckApiToken
 
         if(empty($personal_acces_tokens->toArray()))
         {
-            return response()->json(['succes'=>false,'date'=>[],'code'=>401],401);
+            return response()->json(['succes'=>false,'data'=>[],'code'=>401],401);
         }
 
         /*

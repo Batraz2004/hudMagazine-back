@@ -31,18 +31,25 @@ use App\Models\Category;
 //     Route::get('/goods/list',[GoodsController::class,'getList']);
 // });
 
-//Breeze:
+//Breeze базовый набор:
 Route::prefix('user')->group(function () {
     Route::post('/auth',[AuthenticatedSessionController::class,'store']);
     Route::post('/register',[RegisteredUserController::class,'store']);
     Route::post('/logout',[AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
 });
-//custom middleware:
+
+//custom middleware для аутентификации:
 Route::group(['middleware'=>['checkAuthTokens']],function(){
     Route::get('/testAuthToken',function(){
         return 'its work';
     });
-    Route::post('category/create-new-category',[CategoryController::class,'createCategory']);
+    //Route::post('category/create-new-category',[CategoryController::class,'createCategory']);
+});
+//для поставщиков
+Route::group(['middleware'=>['isSupplier']],function(){
+    Route::prefix('supplier')->group(function(){
+        Route::post('/category/create-new-category',[CategoryController::class,'createCategory']);
+    });
 });
 
 Route::prefix('goods')->group(function(){
