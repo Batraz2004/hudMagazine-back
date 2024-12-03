@@ -23,6 +23,7 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->translatable()
                     ->icon('bookmark'),
                 MenuItem::make('Categories', new CategoryResource())
+                    ->icon('bookmark'),
             ])->translatable(),
 
             MenuItem::make('Documentation', 'https://laravel.com')
