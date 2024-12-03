@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('Category', function (Blueprint $table) {
-            $table->unsignedBigInteger('supplier_id');
+            //$table->unsignedBigInteger('supplier_id')->nullable();
             $table->foreignId('supplier_id')->references('id')->on('suppliers');
         });
     }
@@ -27,6 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('Category', function (Blueprint $table) {
+            $table->dropForeign('categories_supplier_id_foreign');
             $table->dropColumn('supplier_id');
         });
     }

@@ -45,6 +45,7 @@ class CategoryResource extends Resource
             'sort'=>['nullable','numeric'],
             'parent_id'=>['nullable','numeric'],
             'image_path'=>['required', 'image'],
+       //     'supplier_id'=>['required', 'numeric'],
 
         ];
     }
