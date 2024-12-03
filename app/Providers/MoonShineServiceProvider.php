@@ -8,6 +8,7 @@ use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
 use MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
+use App\MoonShine\Resources\CategoryResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('moonshine::ui.resource.role_title', new MoonShineUserRoleResource())
                     ->translatable()
                     ->icon('bookmark'),
+                MenuItem::make('Categories', new CategoryResource())
             ])->translatable(),
 
             MenuItem::make('Documentation', 'https://laravel.com')
