@@ -55,8 +55,8 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
         $token = $user->createToken('auth_token')->plainTextToken;
         $token = explode('|',$token)[1];
-        // $user->remember_token = $token;
-        // $user->save(); //не надо так как токены хранятся в таблицы personal_tokens
+        $user->remember_token = $token;
+        $user->save(); //не надо так как токены хранятся в таблицы personal_tokens, но для поставщиков вернул
 
         return response()->json([
             'succes_token'=>$token,

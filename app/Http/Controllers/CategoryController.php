@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Exception;
 use App\Models;
 use App\Models\Category;
-//use App\Http\Resources\CategoryResource;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-//use Illuminate\Http\Request;
+use App\Http\Resources\CategoryResource;
+use App\Models\Suppliers;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class CategoryController extends Controller
 {
@@ -18,7 +19,7 @@ class CategoryController extends Controller
             $categories = Category::with('products')->get();
             return response()->json([
                 'success'=>true,
-                'data'=>$categories->toArray(),
+                'data'=>new CategoryResource($categories),
                 'code'=>200
             ],200);
         }
@@ -35,11 +36,16 @@ class CategoryController extends Controller
             if(empty($reguest->category_name)||empty($reguest->description))
                 throw new Exception("отсутсвует название или описание категории");
 
+            $token = PersonalAccessToken::findToken($reguest->bearerToken());
+            $user = $token->tokenable->toArray();
+            $supplierId = Suppliers::where('user_id',$user['id'])->first()->toArray()['id'];
+            
             $category = new Category();
             $category->title = $reguest->category_name;
             $category->description = $reguest->description;
             $category->image_path = $reguest->image;
             $category->slug = $reguest->slug;
+            $category->supplier_id = $supplierId;
             $category->save();
 
             return response()->json([
