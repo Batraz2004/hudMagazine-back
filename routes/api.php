@@ -43,7 +43,6 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
     Route::get('/testAuthToken',function(){
         return 'its work';
     });
-    //Route::post('category/create-new-category',[CategoryController::class,'createCategory']);
 });
 //для поставщиков
 Route::group(['middleware'=>['isSupplier']],function(){
