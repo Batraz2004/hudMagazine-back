@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Goods;
+use App\Exports\GoodsExport;
+use App\Imports\goodsImports;
 use App\Models\User;
 
 class GoodsController extends Controller
@@ -15,4 +17,15 @@ class GoodsController extends Controller
         return response()->json(['succes'=>true,'data'=>$goods,'code'=>200]);
     }
 
+    public function import(Request $request)
+    {
+        $file = $request->file('exFile');
+        Excel::import("fuck",$file);
+        return true;
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new GoodsExport, 'products.xlsx');
+    }
 }
