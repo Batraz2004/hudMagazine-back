@@ -9,6 +9,8 @@ use App\Exports\GoodsExport;
 use App\Imports\goodsImports;
 use App\Models\User;
 
+use function Pest\Laravel\json;
+
 class GoodsController extends Controller
 {
     public function getList(Request $request)
@@ -19,9 +21,10 @@ class GoodsController extends Controller
 
     public function import(Request $request)
     {
+        /*
         $file = $request->file('exFile');
         Excel::import("fuck",$file);
-        return true;
+        return true;*/
     }
 
     public function export(Request $request)
