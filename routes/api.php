@@ -48,8 +48,8 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
 Route::group(['middleware'=>['isSupplier']],function(){
     Route::prefix('supplier')->group(function(){
         Route::post('/category/create-new-category',[CategoryController::class,'createCategory']);
-        Route::post('/product/import',[GoodsController::class,'import']);
-        Route::get('/product/export',[GoodsController::class,'export']);
+        Route::post('/product/import', [GoodsController::class,'import']);
+        Route::get('/product/export', [GoodsController::class,'export']);
     });
 });
 

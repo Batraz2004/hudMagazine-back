@@ -5,7 +5,7 @@ namespace App\Imports;
 use App\Models\Goods;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class goodsImports implements ToModel
+class GoodsImports implements ToModel
 {
     /**
     * @param array $row
@@ -14,12 +14,14 @@ class goodsImports implements ToModel
     */
     public function model(array $row)
     {
+       // echo '<pre>'.htmlentities(print_r($row[5], true)).'</pre>';exit();
         return new Goods([
             "category_id" => $row[0],
             "name" => $row[1],
             "price" => $row[2],
-            "image" => $row[3],
-            "Type" => $row[4],
+            "count" => $row[3],
+            "image_src" => $row[4],
+            "Type" => $row[5],
         ]);
     }
 }

@@ -10,5 +10,6 @@ class Goods extends Model
     use HasFactory;
     protected $table = 'Goods';
     protected $primaryKey = 'id';
-    //protected hidden;
+    protected $hidden= ['id'];
+    protected $fillable = ['category_id','name','price','count','image_src','Type'];
 }

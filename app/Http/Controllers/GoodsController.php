@@ -21,10 +21,9 @@ class GoodsController extends Controller
 
     public function import(Request $request)
     {
-        /*
         $file = $request->file('exFile');
-        Excel::import("fuck",$file);
-        return true;*/
+        Excel::import(new GoodsImports,$file);
+        return response()->json(['succes'=>true,'data'=>"",'code'=>200]);
     }
 
     public function export(Request $request)
