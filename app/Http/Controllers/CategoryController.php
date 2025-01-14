@@ -30,7 +30,7 @@ class CategoryController extends Controller
                 'success'=>false,
                 'data'=>"произошла ошибка:". $e->getMessage(),
                 'code'=>500
-            ],200);
+            ],500);
         }
     }
 
@@ -63,10 +63,10 @@ class CategoryController extends Controller
         {
            // echo '<pre>'.htmlentities(print_r("произошла ошибка:". $e->getMessage(), true)).'</pre>';exit();
            return response()->json([
-            'success'=>false,
-            'data'=>"произошла ошибка:". $e->getMessage(),
-            'code'=>500
-        ],200);
+                'success'=>false,
+                'data'=>"произошла ошибка:". $e->getMessage(),
+                'code'=>500
+            ],500);
         }
     }
     public function deleteById(Request $request)
@@ -91,12 +91,22 @@ class CategoryController extends Controller
                 'success'=>false,
                 'data'=>"произошла ошибка:". $e->getMessage(),
                 'code'=>500
-            ],200);
+            ],500);
         }
     }
     /*
-    public function editById()
+    public function editById(Request $reguest)
     {
+        try{
 
+        }
+        catch(Exception $e)
+        {
+            return response()->json([
+            'succes'=>false,
+            'data'=>"произошла ошибка:". $e->getMessage(),
+            'code'=>500
+            ],500);
+        }
     }*/
 }
