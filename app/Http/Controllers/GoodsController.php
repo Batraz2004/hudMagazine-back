@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Goods;
+use App\Exports\GoodsExport;
+use App\Imports\goodsImports;
 use App\Models\User;
+
+use function Pest\Laravel\json;
 
 class GoodsController extends Controller
 {
@@ -15,4 +19,20 @@ class GoodsController extends Controller
         return response()->json(['succes'=>true,'data'=>$goods,'code'=>200]);
     }
 
+    public function import(Request $request)
+    {
+        $file = $request->file('exFile');
+        Excel::import(new GoodsImports,$file);
+        return response()->json(['succes'=>true,'data'=>"",'code'=>200]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new GoodsExport, 'products.xlsx');
+    }
+
+    public function exportCategoryId($id)
+    {
+        return Excel::download(new GoodsExport($id), 'products.xlsx');
+    }
 }
