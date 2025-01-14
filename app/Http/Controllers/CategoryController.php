@@ -25,7 +25,12 @@ class CategoryController extends Controller
         }
         catch(Exception $e)
         {
-            return response()->json(['succes'=>false,'data'=>'Произошла ошибка при обработке запроса.'.$e->getMessage(),'code'=>500],500);
+            //return response()->json(['succes'=>false,'data'=>'Произошла ошибка при обработке запроса.'.$e->getMessage(),'code'=>500],500);
+            return response()->json([
+                'success'=>false,
+                'data'=>"произошла ошибка:". $e->getMessage(),
+                'code'=>500
+            ],200);
         }
     }
 
@@ -56,7 +61,42 @@ class CategoryController extends Controller
         }
         catch(Exception $e)
         {
-            echo '<pre>'.htmlentities(print_r("произошла ошибка:". $e->getMessage(), true)).'</pre>';exit();
+           // echo '<pre>'.htmlentities(print_r("произошла ошибка:". $e->getMessage(), true)).'</pre>';exit();
+           return response()->json([
+            'success'=>false,
+            'data'=>"произошла ошибка:". $e->getMessage(),
+            'code'=>500
+        ],200);
         }
     }
+    public function deleteById(Request $request)
+    {
+        try{
+            $mess = "категория не найдена ";
+            if(Category::where("id",$request->id)->exists())
+            {
+                Category::query()->where("id",$request->id)->delete();
+                $mess = "категория удалена";   
+            }
+            return response()->json([
+                'success'=>true,
+                'data'=>$mess,
+                'code'=>200
+            ],200);
+        }
+        catch(Exception $e)
+        {
+            //echo '<pre>'.htmlentities(print_r("произошла ошибка:". $e->getMessage(), true)).'</pre>';exit();
+            return response()->json([
+                'success'=>false,
+                'data'=>"произошла ошибка:". $e->getMessage(),
+                'code'=>500
+            ],200);
+        }
+    }
+    /*
+    public function editById()
+    {
+
+    }*/
 }
