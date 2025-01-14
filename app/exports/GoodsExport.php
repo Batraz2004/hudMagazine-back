@@ -36,6 +36,8 @@ class GoodsExport implements FromCollection, WithHeadings
             "Количество",
             "Изображение",
             "Тип",
+            "время создания",
+            "последнее изменение"
         ];
     }
 }
