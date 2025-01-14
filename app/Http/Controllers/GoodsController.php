@@ -26,8 +26,13 @@ class GoodsController extends Controller
         return response()->json(['succes'=>true,'data'=>"",'code'=>200]);
     }
 
-    public function export(Request $request)
+    public function export()
     {
         return Excel::download(new GoodsExport, 'products.xlsx');
+    }
+
+    public function exportCategoryId($id)
+    {
+        return Excel::download(new GoodsExport($id), 'products.xlsx');
     }
 }

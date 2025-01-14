@@ -50,6 +50,7 @@ Route::group(['middleware'=>['isSupplier']],function(){
         Route::post('/category/create-new-category',[CategoryController::class,'createCategory']);
         Route::post('/product/import', [GoodsController::class,'import']);
         Route::get('/product/export', [GoodsController::class,'export']);
+        Route::get("/product/export-category-id/{id}",[GoodsController::class,"exportCategoryId"]);
     });
 });
 
