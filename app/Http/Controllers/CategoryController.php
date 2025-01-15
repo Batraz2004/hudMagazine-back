@@ -69,6 +69,38 @@ class CategoryController extends Controller
             ],500);
         }
     }
+    
+    public function editById(Request $reguest)
+    {
+        try{
+            $mess = "категория не найдена";
+            $category = Category::query()->find($reguest->id);
+            if(!empty($category))
+            {
+                $category->title = $reguest->category_name;
+                $category->description = $reguest->description;
+                $category->image_path = $reguest->image;
+                $category->slug = $reguest->slug;
+                $category->save();
+                $mess = "категория изменена";
+                //$category->supplier_id = $supplierId;
+            }
+            return response()->json([
+                'success'=>true,
+                'data'=>$mess,
+                'code'=>200
+            ],200);
+        }
+        catch(Exception $e)
+        {
+            return response()->json([
+            'succes'=>false,
+            'data'=>"произошла ошибка:". $e->getMessage(),
+            'code'=>500
+            ],500);
+        }
+    }
+
     public function deleteById(Request $request)
     {
         try{
@@ -94,19 +126,6 @@ class CategoryController extends Controller
             ],500);
         }
     }
-    /*
-    public function editById(Request $reguest)
-    {
-        try{
-
-        }
-        catch(Exception $e)
-        {
-            return response()->json([
-            'succes'=>false,
-            'data'=>"произошла ошибка:". $e->getMessage(),
-            'code'=>500
-            ],500);
-        }
-    }*/
+    
+    
 }
