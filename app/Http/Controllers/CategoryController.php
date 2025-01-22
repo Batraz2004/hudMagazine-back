@@ -7,7 +7,7 @@ use App\Models;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryCollection;
 use App\Models\Suppliers;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -19,7 +19,7 @@ class CategoryController extends Controller
             $categories = Category::with('products')->get();
             return response()->json([
                 'success'=>true,
-                'data'=>new CategoryResource($categories),
+                'data'=>new CategoryCollection($categories),
                 'code'=>200
             ],200);
         }
