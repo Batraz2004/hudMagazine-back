@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoodsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\Category;
@@ -44,6 +45,7 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
     Route::get('/testAuthToken',function(){
         return 'its work';
     });
+    Route::post('/cart/add',[CartController::class,"add"]);
 });
 //для поставщиков
 Route::group(['middleware'=>['isSupplier']],function(){
