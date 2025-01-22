@@ -27,12 +27,13 @@ class CartController extends Controller
             $cart = new Cart;
             $cart->goodsId = $good->id;
             $cart->name = $good->name;
+            $cart->quantity = 1;
             $cart->usersId = $user['id'];
-            //$cart->save();
+            $cart->save();
 
             return response()->json([
                 'succes'=>true,
-                'data'=> true,//$cart->toArray(),
+                'data'=> $cart->toArray(),
                 'code'=>200,
             ],200);
         }

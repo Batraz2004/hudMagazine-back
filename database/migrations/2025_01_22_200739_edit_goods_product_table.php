@@ -14,7 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('UsersGoods',function(Blueprint $table){
+            //$table->increments('id')->change();
             $table->integer('quantity');
+            $table->string('name')->change();
             $table->timestamps();
         });
     }
@@ -28,6 +30,7 @@ return new class extends Migration
     {
         Schema::table('UsersGoods',function(Blueprint $table)
         {
+           // $table->integer('name')->change();
             $table->dropColumn('quantity');
             $table->dropColumn('created_at');
             $table->dropColumn('updated_at');
