@@ -12,7 +12,7 @@ class Category extends Model
     use HasFactory;
     protected $table = 'Category';
     protected $hidden = ['created_at','updated_at'];
-    
+
     public function products()
     {
         return $this->hasMany(Goods::class,'category_id');
