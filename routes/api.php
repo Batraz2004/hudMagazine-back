@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\Category;
+use Maatwebsite\Excel\Row;
 use PhpOffice\PhpSpreadsheet\Calculation\Category as CalculationCategory;
 
 /*
@@ -46,6 +47,7 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
         return 'its work';
     });
     Route::post('/cart/add',[CartController::class,"add"]);
+    Route::get('/cart/get',[CartController::class,"get"]);
 });
 //для поставщиков
 Route::group(['middleware'=>['isSupplier']],function(){
