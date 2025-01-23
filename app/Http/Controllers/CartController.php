@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CartRequest;
 use App\Models\Cart;
 use App\Models\Goods;
 use App\Models\Suppliers;
@@ -11,7 +12,7 @@ use Exception;
 
 class CartController extends Controller
 {
-    public function add(Request $request)
+    public function add(CartRequest $request)
     {
         try{
             //пользователь
@@ -27,7 +28,7 @@ class CartController extends Controller
             $cart = new Cart;
             $cart->goodsId = $good->id;
             $cart->name = $good->name;
-            $cart->quantity = 1;
+            $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
             $cart->usersId = $user['id'];
             $cart->save();
 
