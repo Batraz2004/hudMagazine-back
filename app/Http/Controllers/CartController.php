@@ -25,17 +25,25 @@ class CartController extends Controller
                 ->where('id',$request->id)
                 ->first();
 
+            $good->count -= $request->quantity;
             //добавление корзины :
-            $cart = new Cart;
-            $cart->goodsId = $good->id;
-            $cart->name = $good->name;
-            $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
-            $cart->usersId = $user['id'];
-            $cart->save();
+            if($good->count >= 0)//проверим есть ли товар в наличии
+            {   
+                $cart = new Cart;
+                $cart->goodsId = $good->id;
+                $cart->name = $good->name;
+                $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
+                $cart->usersId = $user['id'];
+                $cart->save();
+                $good->save();
+                $message = 'товар добавлен';
+            }
+            else 
+                $message = 'отсуствует в наличии';
 
             return response()->json([
                 'succes'=>true,
-                'data'=> $cart->toArray(),
+                'data'=> $message,//$cart->toArray(),
                 'code'=>200,
             ],200);
         }
