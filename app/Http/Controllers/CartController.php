@@ -25,7 +25,7 @@ class CartController extends Controller
                 ->where('id',$request->id)
                 ->first();
 
-            $good->count -= $request->quantity;
+            //$good->count -= $request->quantity; // должно отниматся при оформлении 
             //добавление корзины :
             if($good->count >= 0)//проверим есть ли товар в наличии
             {   
@@ -83,4 +83,5 @@ class CartController extends Controller
         }
         
     }
+    
 }
