@@ -83,6 +83,7 @@ class CartController extends Controller
         }
         
     }
+
     public function cancelById(Request $request)
     {
         try
@@ -97,6 +98,32 @@ class CartController extends Controller
             return response()->json([
                 'succes'=>true,
                 'data'=>'товар удален',
+                'code'=>200],
+            '200');
+        }
+        catch(Exception $e)
+        {
+            return response()->json([
+                'succes'=>false,
+                'произошла ошибка'=>$e->getMessage(),
+                'code'=>500],
+                500);
+        }
+    }
+
+    public function clear   (Request $request)
+    {
+        try
+        {
+            $token = PersonalAccessToken::findToken($request->bearerToken());
+            $personId = $token->tokenable->id;
+
+            $cartItem = Cart::where('usersID',$personId)
+                ->delete();
+
+            return response()->json([
+                'succes'=>true,
+                'data'=>'корзина очищена',
                 'code'=>200],
             '200');
         }
