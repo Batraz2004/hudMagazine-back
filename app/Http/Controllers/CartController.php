@@ -25,17 +25,25 @@ class CartController extends Controller
                 ->where('id',$request->id)
                 ->first();
 
+            //$good->count -= $request->quantity; // должно отниматся при оформлении 
             //добавление корзины :
-            $cart = new Cart;
-            $cart->goodsId = $good->id;
-            $cart->name = $good->name;
-            $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
-            $cart->usersId = $user['id'];
-            $cart->save();
+            if($good->count >= 0)//проверим есть ли товар в наличии
+            {   
+                $cart = new Cart;
+                $cart->goodsId = $good->id;
+                $cart->name = $good->name;
+                $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
+                $cart->usersId = $user['id'];
+                $cart->save();
+                $good->save();
+                $message = 'товар добавлен';
+            }
+            else 
+                $message = 'отсуствует в наличии';
 
             return response()->json([
                 'succes'=>true,
-                'data'=> $cart->toArray(),
+                'data'=> $message,//$cart->toArray(),
                 'code'=>200,
             ],200);
         }
@@ -74,5 +82,58 @@ class CartController extends Controller
             ],500);
         }
         
+    }
+
+    public function cancelById(Request $request)
+    {
+        try
+        {
+            $token = PersonalAccessToken::findToken($request->bearerToken());
+            $personId = $token->tokenable->id;
+
+            $cartItem = Cart::where('id',$request->id)
+                ->where('usersID',$personId)
+                ->delete();
+
+            return response()->json([
+                'succes'=>true,
+                'data'=>'товар удален',
+                'code'=>200],
+            '200');
+        }
+        catch(Exception $e)
+        {
+            return response()->json([
+                'succes'=>false,
+                'произошла ошибка'=>$e->getMessage(),
+                'code'=>500],
+                500);
+        }
+    }
+
+    public function clear   (Request $request)
+    {
+        try
+        {
+            $token = PersonalAccessToken::findToken($request->bearerToken());
+            $personId = $token->tokenable->id;
+
+            $cartItem = Cart::where('usersID',$personId)
+                ->delete();
+
+            return response()->json([
+                'succes'=>true,
+                'data'=>'корзина очищена',
+                'code'=>200],
+            '200');
+        }
+        catch(Exception $e)
+        {
+            return response()->json([
+                'succes'=>false,
+                'произошла ошибка'=>$e->getMessage(),
+                'code'=>500],
+                500);
+        }
     }
 }

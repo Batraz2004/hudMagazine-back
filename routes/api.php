@@ -48,6 +48,9 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
     });
     Route::post('/cart/add',[CartController::class,"add"]);
     Route::get('/cart/get',[CartController::class,"get"]);
+    Route::post('cart/cancell-by-id',[CartController::class,"cancelById"]);
+    Route::post('cart/clear',[CartController::class,"clear"]);
+
 });
 //для поставщиков
 Route::group(['middleware'=>['isSupplier']],function(){
