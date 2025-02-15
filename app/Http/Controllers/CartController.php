@@ -9,22 +9,23 @@ use App\Models\Cart;
 use App\Models\Goods;
 use App\Models\Suppliers;
 use Laravel\Sanctum\PersonalAccessToken;
+use App\Helpers\CheckUserHelper;
 use Exception;
 
 class CartController extends Controller
 {
+
     public function add(CartRequest $request)
     {
-        try{
+        try{ 
             //пользователь
-            $token = PersonalAccessToken::findToken($request->bearerToken());
-            $user = $token->tokenable->toArray();
+            $user = CheckUserHelper::userByToken($request->bearerToken());
             //продукт
 
             $good = Goods::query()
                 ->where('id',$request->id)
                 ->first();
-
+  
             //$good->count -= $request->quantity; // должно отниматся при оформлении 
             //добавление корзины :
             if($good->count >= 0)//проверим есть ли товар в наличии
@@ -59,13 +60,14 @@ class CartController extends Controller
 
     public function get(Request $request)
     {
+        
         try
         {
             $token = PersonalAccessToken::findToken($request->bearerToken());
             $userId = $token->tokenable->id;
             $cartGoods = Cart::where("usersID",$userId)
                 ->get();
-
+            
             return response()->json([
                 'succes'=>true,
                 'data'=> new CartCollection($cartGoods),
@@ -86,6 +88,7 @@ class CartController extends Controller
 
     public function cancelById(Request $request)
     {
+        $message = "товар отсутсвует";
         try
         {
             $token = PersonalAccessToken::findToken($request->bearerToken());
@@ -94,10 +97,12 @@ class CartController extends Controller
             $cartItem = Cart::where('id',$request->id)
                 ->where('usersID',$personId)
                 ->delete();
+            if(!empty($cartItem))
+                $message = "товар удален";
 
             return response()->json([
                 'succes'=>true,
-                'data'=>'товар удален',
+                'data'=>$message,
                 'code'=>200],
             '200');
         }

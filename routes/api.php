@@ -7,7 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Models\Category;
+use App\Models;
 use Maatwebsite\Excel\Row;
 use PhpOffice\PhpSpreadsheet\Calculation\Category as CalculationCategory;
 
@@ -46,10 +46,12 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
     Route::get('/testAuthToken',function(){
         return 'its work';
     });
-    Route::post('/cart/add',[CartController::class,"add"]);
-    Route::get('/cart/get',[CartController::class,"get"]);
-    Route::post('cart/cancell-by-id',[CartController::class,"cancelById"]);
-    Route::post('cart/clear',[CartController::class,"clear"]);
+    Route::prefix('/cart')->group(function(){
+        Route::post('/add',[CartController::class,"add"]);
+        Route::get('/get',[CartController::class,"get"]);
+        Route::post('/cancell-by-id',[CartController::class,"cancelById"]);
+        Route::post('/clear',[CartController::class,"clear"]);
+    });
 
 });
 //для поставщиков
