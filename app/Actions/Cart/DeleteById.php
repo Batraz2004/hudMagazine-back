@@ -13,7 +13,8 @@ class DeleteById
         $cartItem = Cart::where('id',$itemId)
                 ->where('usersID',$userId)
                 ->delete();
-        if(!empty($cartItem))
+        if(($cartItem))
             $message = "товар удален";
+        return $message;
     }
 }

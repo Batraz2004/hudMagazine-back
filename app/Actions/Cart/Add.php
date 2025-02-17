@@ -16,15 +16,19 @@ class Add
                 ->first();
 
         //его доабвление
-        if($good->count >= 0)//проверим есть ли товар в наличии
+        if($good->count >= 0 && !empty($good))//проверим есть ли товар в наличии
         {   
-            $cart = new Cart;
+            $cart = Cart::where('goodsID',$good->id)->where('usersID',$userId)->first();//проверим может добавляли ли мы раньше товаров с тем же id
+            
+            if(empty($cart))
+                $cart = new Cart;
+
             $cart->goodsId = $good->id;
             $cart->name = $good->name;
-            $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
             $cart->usersId = $userId;
+            $cart->quantity += $request->quantity;
             $cart->save();
-            $good->save();
+
             $message = 'товар добавлен';
         }
         else 
