@@ -3,12 +3,13 @@ namespace App\Actions\Cart;
 
 use App\Models\Cart;
 
-class CartClear
+class Clear
 {
     public function __invoke($personId)
     {
         $cart = Cart::where('usersID',$personId)
                 ->delete();
-        return empty($cart)?"корзина очищена":"не удалось очистить корзину";
+
+        return $cart > 0?"корзина очищена":"корзина очищена";//$cart возвращает количество уадаленных твоаров
     }
 }

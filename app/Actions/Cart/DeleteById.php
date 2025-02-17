@@ -5,7 +5,7 @@ namespace App\Actions\Cart;
 use App\Models\Cart;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class CartDeleteById
+class DeleteById
 {
     public function __invoke($userId,$itemId)
     {

@@ -5,7 +5,7 @@ use App\Models\Cart;
 use App\Models\Goods;
 use App\Helpers\CheckUserHelper;
 
-class CartAdd
+class Add
 {
     public function __invoke($request,$userId)
     {
