@@ -42,12 +42,14 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
     });
 
 });
-//для поставщиков
+//для поставщиков / модераторов(временно)
 Route::group(['middleware'=>['isSupplier']],function(){
     Route::prefix('supplier')->group(function(){
+        //должен иметь права админстраторы и модераторы
         Route::post('/category/create-new-category',[CategoryController::class,'createCategory']);
         Route::post('/category/edit-category',[CategoryController::class,'editById']);
         Route::post('/category/delete-category',[CategoryController::class,'deleteById']);
+        //!!!
         Route::post('/product/import', [GoodsController::class,'import']);
         Route::get('/product/export', [GoodsController::class,'export']);
         Route::get("/product/export-category-id/{id}",[GoodsController::class,"exportCategoryId"]);
