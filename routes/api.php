@@ -21,18 +21,6 @@ use PhpOffice\PhpSpreadsheet\Calculation\Category as CalculationCategory;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//sunctum
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-//Route::get('/test', function () {
-    // return 'Hello World';
-// });
-// Route::middleware('auth:sanctum')->get('/goods/list',[GoodsController::class,'getList']);
-//или
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('/goods/list',[GoodsController::class,'getList']);
-// });
 
 //Breeze базовый набор:
 Route::prefix('user')->group(function () {
