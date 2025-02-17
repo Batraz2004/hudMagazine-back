@@ -3,48 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CartRequest;
+use App\Http\Requests\CartAddRequest;
 use App\Http\Resources\CartCollection;
 use App\Models\Cart;
 use App\Models\Goods;
 use App\Models\Suppliers;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Helpers\CheckUserHelper;
+use App\Actions\Cart\CartGet;
+use App\Actions\Cart\CartAdd;
+use App\Actions\Cart\CartDeleteById;
+use App\Actions\Cart\CartClear;
+
 use Exception;
 
 class CartController extends Controller
 {
 
-    public function add(CartRequest $request)
+    public function add(CartAddRequest $request)
     {
         try{ 
-            //пользователь
-            $user = CheckUserHelper::userByToken($request->bearerToken());
-            //продукт
-
-            $good = Goods::query()
-                ->where('id',$request->id)
-                ->first();
-  
             //$good->count -= $request->quantity; // должно отниматся при оформлении 
             //добавление корзины :
-            if($good->count >= 0)//проверим есть ли товар в наличии
-            {   
-                $cart = new Cart;
-                $cart->goodsId = $good->id;
-                $cart->name = $good->name;
-                $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
-                $cart->usersId = $user['id'];
-                $cart->save();
-                $good->save();
-                $message = 'товар добавлен';
-            }
-            else 
-                $message = 'отсуствует в наличии';
+            $userId = CheckUserHelper::userByToken($request->bearerToken());
+            $cartAdd = new CartAdd();
 
             return response()->json([
                 'succes'=>true,
-                'data'=> $message,//$cart->toArray(),
+                'data'=> $cartAdd($request,$userId),
                 'code'=>200,
             ],200);
         }
@@ -60,17 +46,14 @@ class CartController extends Controller
 
     public function get(Request $request)
     {
-        
         try
         {
-            $token = PersonalAccessToken::findToken($request->bearerToken());
-            $userId = $token->tokenable->id;
-            $cartGoods = Cart::where("usersID",$userId)
-                ->get();
-            
+            $userId = CheckUserHelper::userByToken($request->bearerToken());
+            $cartGet = new CartGet();
+   
             return response()->json([
                 'succes'=>true,
-                'data'=> new CartCollection($cartGoods),
+                'data'=> new CartCollection($cartGet($userId)),
                 'code'=>200,
             ],200);
 
@@ -88,21 +71,14 @@ class CartController extends Controller
 
     public function cancelById(Request $request)
     {
-        $message = "товар отсутсвует";
         try
         {
-            $token = PersonalAccessToken::findToken($request->bearerToken());
-            $personId = $token->tokenable->id;
-
-            $cartItem = Cart::where('id',$request->id)
-                ->where('usersID',$personId)
-                ->delete();
-            if(!empty($cartItem))
-                $message = "товар удален";
+            $personId = CheckUserHelper::userByToken($request->bearerToken());
+            $deleteItemInf = new CartDeleteById;
 
             return response()->json([
                 'succes'=>true,
-                'data'=>$message,
+                'data'=>$deleteItemInf($personId,$request->id),
                 'code'=>200],
             '200');
         }
@@ -116,19 +92,16 @@ class CartController extends Controller
         }
     }
 
-    public function clear   (Request $request)
+    public function clear(Request $request)
     {
         try
         {
-            $token = PersonalAccessToken::findToken($request->bearerToken());
-            $personId = $token->tokenable->id;
-
-            $cartItem = Cart::where('usersID',$personId)
-                ->delete();
+            $personId = CheckUserHelper::userByToken($request->bearerToken());
+            $cart = new CartClear();
 
             return response()->json([
                 'succes'=>true,
-                'data'=>'корзина очищена',
+                'data'=>$cart($personId),
                 'code'=>200],
             '200');
         }

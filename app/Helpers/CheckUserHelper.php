@@ -9,7 +9,7 @@ class CheckUserHelper {
     public static function userByToken($reqBearerToken)
     {
         $token = PersonalAccessToken::findToken($reqBearerToken);
-        return $token->tokenable->toArray();
+        return $token->tokenable->id;//$token->tokenable->toArray() или $token->tokenable->id; что бы сразу получить id 
     }
 
     public static function supplierByToken($reqBearerToken)
@@ -19,6 +19,6 @@ class CheckUserHelper {
                 ->where('is_supplier',1)
                 ->first();
 
-        return $isSpplier->toArray();
+        return $isSpplier->toArray()['id'];
     }
 }
