@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Goods;
+use App\Models\OrderItems;
 
 class Orders extends Model
 {
@@ -13,8 +14,8 @@ class Orders extends Model
     protected $filalble =['id','title','user_id','userGoods_id','cost'];
     protected $hidden = ['created_at','update_at'];
 
-    public function Good()
+    public function items()
     {
-        return $this->HasOne(Goods::class,'id','goodsId');
+        $this->hasMany(OrderItems::class,'orderId');
     }
 }
