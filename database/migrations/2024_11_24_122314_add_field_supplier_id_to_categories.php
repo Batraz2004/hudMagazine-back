@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('Category', function (Blueprint $table) {
             //$table->unsignedBigInteger('supplier_id')->nullable();
-            $table->foreignId('supplier_id')->references('id')->on('suppliers');
+            $table->foreignId('supplier_id')->references('id')->on('suppliers');//все это можно было заменить на $table->foreignId('supplier_id')->constrained
         });
     }
 
