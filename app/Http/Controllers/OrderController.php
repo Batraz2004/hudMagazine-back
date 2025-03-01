@@ -25,6 +25,7 @@ class OrderController extends Controller
         $order->phone = $request->phone;
         $order->comment = $request->comment;
         $totalPrice = 0;//итоговая стоймость всех продуктов
+
         foreach($cartItems as $key => $cartItem)
         {
             $good = Goods::where('id',$cartItem->goodsID)->first();
@@ -36,7 +37,7 @@ class OrderController extends Controller
                                   //столько сколько есть в наличии 
                 if($cartItem->quantity > 0)
                 {
-                    $cartItem->cost *=  $cartItem->quantity;
+                    $cartItem->price *=  $cartItem->quantity;
                     $totalPrice += $cartItem->cost; 
                     //создание заказа
                     $orderItem = new OrderItems();

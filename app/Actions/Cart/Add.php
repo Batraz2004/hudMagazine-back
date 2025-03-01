@@ -17,17 +17,24 @@ class Add
 
         //его доабвление
         
-        if($good->count >= 0)//проверим есть ли товар в наличии
+        if(!is_null($good) && $good->count > 0)//проверим есть ли товар в наличии
         {   
-            $cart = new Cart;
+            //$cart = new Cart;
+            $cart = Cart::where('goodsID',$good->id)
+                    ->where('usersID',$userId)->first();//проверим может добавляли ли мы раньше товаров с тем же id
+
+            if(empty($cart))
+                $cart = new Cart;
+           
             $cart->goodsId = $good->id;
-            $cart->name = $good->name;
+            $cart->name = $good->name; 
             $cart->price = $good->price;
-            $cart->total_price = $good->price * $request->quantity;
-            $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
+            $cart->quantity += $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
+            $cart->total_price = $cart->price * $cart->quantity;//итоговая цена 
             $cart->usersId = $userId;
             $cart->save();
             $good->save();
+            
             $message = 'товар добавлен';
         }
         else 

@@ -17,6 +17,7 @@ class CartCollection extends ResourceCollection
         $data = $this->collection;
         $items = $data['cart_items']->resource;
         $cart_total_price = $data['total_cart_price']->resource;
-        return [$items,$cart_total_price];
+        return ['cart_items'=>$items,
+                'total_price'=>$cart_total_price];
     }
 }
