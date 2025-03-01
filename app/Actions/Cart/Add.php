@@ -16,11 +16,14 @@ class Add
                 ->first();
 
         //его доабвление
+        
         if($good->count >= 0)//проверим есть ли товар в наличии
         {   
             $cart = new Cart;
             $cart->goodsId = $good->id;
             $cart->name = $good->name;
+            $cart->price = $good->price;
+            $cart->total_price = $good->price * $request->quantity;
             $cart->quantity = $request->quantity;//$request->quantity;//$cart->quantity = $good->quantity;
             $cart->usersId = $userId;
             $cart->save();

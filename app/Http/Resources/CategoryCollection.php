@@ -18,7 +18,7 @@ class CategoryCollection extends ResourceCollection
         $count = $this->collection->count();
         return [
             'count' => $count,
-            'data' => $this->collection
+            'data' => $this->collection->toArray(),
         ];
     }
 }
