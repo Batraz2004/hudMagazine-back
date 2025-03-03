@@ -13,46 +13,61 @@ class OrderController extends Controller
 {
     public function complete(Request $request)
     {
-        echo '<pre>'.htmlentities(print_r('стоп!', true)).'</pre>';exit();
+        $userId = CheckUserHelper::userByToken($request->bearerToken());
 
-        return 1;
-        $userId = CheckUserHelper::userByToken($request->bearerToken);
-        
         //создание заказа
         $order = new Orders();
         $order->{'e-mail'} = $request->email;
         $order->address = $request->address;
         $order->phone = $request->phone;
         $order->comment = $request->comment;
+        $order->user_id = $userId;
+        $order->save();
         $totalPrice = 0;//итоговая стоймость всех продуктов
+        $message = "товары не выбраны";
+        //получение активных товаров пользователя
+        $cartItems = Cart::where('usersID',$userId)
+                    ->where('active',1)
+                    ->select(['id','name','goodsID','quantity','price','total_price','active'])
+                    ->get();
 
         foreach($cartItems as $key => $cartItem)
         {
             $good = Goods::where('id',$cartItem->goodsID)->first();
-            if($good->quantity > $cartItem->quantity && $cartItem->active == 1)
+            
+            if($good->count > $cartItem->quantity && $cartItem->active == 1)
             {
                 //отнять quantity у продукта
-                $cartItem->quantity = $good->quantity > $good->quantity ?
-                                  $good->quantity-$cartItem->quantity : $good->quantity;//если нет в наличии указаного кколичество то оформится з
-                                  //столько сколько есть в наличии 
-                if($cartItem->quantity > 0)
+                $good->count = $good->count - $cartItem->quantity; 
+                
+                if($good->count > 0)
                 {
-                    $cartItem->price *=  $cartItem->quantity;
                     $totalPrice += $cartItem->cost; 
                     //создание заказа
                     $orderItem = new OrderItems();
-                    $orderItem->title = $cartItem->name;
+                    $orderItem->name = $cartItem->name;
                     $orderItem->user_id = $userId;//$userId  и $cartItem->name должны совпадать
                     $orderItem->goodsID = $cartItem->goodsID;//добавить колонку 
-                    $orderItem->ordersId = $cartItem->$order->id;
+                    $orderItem->orderId = $order->id;
                     $orderItem->quantity = $cartItem->quantity;
-                    //удаление с корзины 
-                    $cartItem->delete();
+                    $orderItem->price = $cartItem->price;
+                    $orderItem->total_price = $cartItem->price * $cartItem->quantity;
+
+                    $orderItem->save();
+                    $cartItem->delete();//удаление с корзины 
+                    $message = "заказ оформлен";
                 }
+                else
+                    return "отсуствует в наличии"; 
             }
-            //$item->delete();
         }
-        $order->totalPrice = $totalPrice;
-        echo '<pre>'.htmlentities(print_r($cartItems->toArray(), true)).'</pre>';exit();
+
+        $order->total_price = $totalPrice;
+        $order->save();
+        return response()->json([
+            'succes'=>true,
+            'data'=> $message,
+            'code'=>200,
+        ],200);
     }
 }

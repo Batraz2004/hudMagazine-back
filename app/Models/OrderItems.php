@@ -11,7 +11,7 @@ class OrderItems extends Model
 {
     use HasFactory;
     protected $table ='order_items';
-    protected $fillable = ['id','name','cost','quantity','user_id','goodsId','orderId'];
+    protected $fillable = ['id','name','price','total_price','quantity','user_id','goodsId','orderId'];
     protected $hidden = ['created_at','updated_at'];
 
     public function Good()
