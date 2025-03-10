@@ -33,7 +33,7 @@ class Add
             $cart->total_price = $cart->price * $cart->quantity;//итоговая цена 
             $cart->usersId = $userId;
             $cart->save();
-            $good->save();
+            $good->save();//а зачем ?
             
             $message = 'товар добавлен';
         }

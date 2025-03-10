@@ -44,6 +44,7 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
     Route::prefix('/order')->group(function(){
         //Оформление заказа POST
         Route::post('/complete',[OrderController::class,'complete']);
+        Route::get('/get',[OrderController::class,'getList']);
         //оформленные заказы GET
         //удаление заказа Delete 
     });
