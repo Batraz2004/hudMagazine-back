@@ -11,7 +11,7 @@ class Orders extends Model
 {
     use HasFactory;
     protected $table = 'Orders';
-    protected $filalble =['id','user_id','e-mail','address','phone','comment','total_price'];
+    protected $fillable =['id','user_id','e-mail','address','phone','comment','total_price','status'];
     protected $hidden = ['created_at','update_at'];
 
     public function items()

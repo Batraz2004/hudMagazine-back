@@ -58,4 +58,25 @@ class OrderController extends Controller
             ],500);
         }
     }
+
+    public function changeStatus(Request $request)
+    {
+        try{
+            $order = Orders::find($request->id)
+                ->update(['status'=>$request->status]);
+            return response()->json([
+                'succes'=>true,
+                'data' => "статус изменен",
+                'code'=>200,
+            ],200);
+        }
+        catch(Exception $e)
+        {
+            return response()->json([
+                'succes'=>false,
+                'data'=> "произошла ошибка:".$e->getMessage(),
+                'code'=>500,
+            ],500);
+        }
+    }
 }
