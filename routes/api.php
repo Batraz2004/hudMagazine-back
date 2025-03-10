@@ -42,11 +42,10 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
         Route::post('/clear',[CartController::class,"clear"]);
     });
     Route::prefix('/order')->group(function(){
-        //Оформление заказа POST
         Route::post('/complete',[OrderController::class,'complete']);
+        Route::post('/deleteById',[OrderController::class,'deleteById']);
+        Route::post('/change',[OrderController::class,'changeStatus']);
         Route::get('/get',[OrderController::class,'getList']);
-        //оформленные заказы GET
-        //удаление заказа Delete 
     });
 
 });
