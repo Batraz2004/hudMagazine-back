@@ -5,12 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoodsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models;
 use Maatwebsite\Excel\Row;
 use PhpOffice\PhpSpreadsheet\Calculation\Category as CalculationCategory;
-
+use App\Http\Controllers;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,6 +40,13 @@ Route::group(['middleware'=>['checkAuthTokens']],function(){
         Route::get('/get',[CartController::class,"get"]);
         Route::post('/cancell-by-id',[CartController::class,"cancelById"]);
         Route::post('/clear',[CartController::class,"clear"]);
+    });
+    Route::prefix('/order')->group(function(){
+        //Оформление заказа POST
+        Route::post('/complete',[OrderController::class,'complete']);
+        Route::get('/get',[OrderController::class,'getList']);
+        //оформленные заказы GET
+        //удаление заказа Delete 
     });
 
 });

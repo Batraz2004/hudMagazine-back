@@ -25,7 +25,6 @@ class CategoryController extends Controller
         }
         catch(Exception $e)
         {
-            //return response()->json(['succes'=>false,'data'=>'Произошла ошибка при обработке запроса.'.$e->getMessage(),'code'=>500],500);
             return response()->json([
                 'success'=>false,
                 'data'=>"произошла ошибка:". $e->getMessage(),

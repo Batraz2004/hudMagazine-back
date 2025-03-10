@@ -9,7 +9,15 @@ class Get
 {
     public function __invoke($userId)
     {
-        return Cart::where("usersID",$userId)
+        $cartTotalPrice = 0.0;
+        $cart = Cart::where("usersID",$userId)
         ->get();
+        
+        foreach($cart as $item)
+            $cartTotalPrice += $item->price*$item->quantity; 
+        
+        return ['cart_items'=>$cart->toArray(),
+                'total_cart_price'=>$cartTotalPrice,
+                ];
     }
 }

@@ -14,6 +14,10 @@ class CartCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = $this->collection;
+        $items = $data['cart_items']->resource;
+        $cart_total_price = $data['total_cart_price']->resource;
+        return ['cart_items'=>$items,
+                'total_price'=>$cart_total_price];
     }
 }
