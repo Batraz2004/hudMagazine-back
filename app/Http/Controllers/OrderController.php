@@ -79,4 +79,24 @@ class OrderController extends Controller
             ],500);
         }
     }
+    public function deleteById(Request $request)
+    {
+        try{
+            $order = Orders::where('id',$request->id)->delete();
+
+            return response()->json([
+                'succes'=>true,
+                'data' => "заказ удален",
+                'code'=>200,
+            ],200);
+        }
+        catch(Exception $e)
+        {
+            return response()->json([
+                'succes'=>false,
+                'data'=> "произошла ошибка:".$e->getMessage(),
+                'code'=>500,
+            ],500);
+        }
+    }
 }
