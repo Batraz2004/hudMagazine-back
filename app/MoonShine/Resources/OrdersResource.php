@@ -10,6 +10,7 @@ use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Number;
+use MoonShine\Fields\Enum;
 
 class OrdersResource extends Resource
 {
@@ -23,10 +24,23 @@ class OrdersResource extends Resource
 		    ID::make()->sortable(),
             Text::make('e-mail'),
             Number::make('total_price'),
-
+            Text::make('phone'),
+            Text::make('address'),
+            //Enum::make('status')->attach(StatusEnum::class),
         ];
 	}
+    // protected function formFields(): iterable
+    // {
+    //     return [
+    //         Box::make([
+    //             ID::make(),
+    //             Text::make('phone'),
+    //             Text::make('address'),
+    //         ]),
 
+    //     ];
+
+    // }
 	public function rules(Model $item): array
 	{
 	    return [];
