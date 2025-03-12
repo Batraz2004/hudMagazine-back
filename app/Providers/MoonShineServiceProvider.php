@@ -9,6 +9,8 @@ use MoonShine\Menu\MenuItem;
 use MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 use App\MoonShine\Resources\CategoryResource;
+use App\MoonShine\Resources\OrdersResource;
+
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,8 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->translatable()
                     ->icon('bookmark'),
                 MenuItem::make('Categories', new CategoryResource())
+                    ->icon('bookmark'),
+                MenuItem::make('Orders', new OrdersResource())
                     ->icon('bookmark'),
             ])->translatable(),
 
