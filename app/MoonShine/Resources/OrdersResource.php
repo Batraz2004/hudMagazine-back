@@ -11,6 +11,8 @@ use MoonShine\Actions\FiltersAction;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Enum;
+use App\Enums\Status;
+use MoonShine\Fields\Select;
 
 class OrdersResource extends Resource
 {
@@ -23,10 +25,13 @@ class OrdersResource extends Resource
 		return [
 		    ID::make()->sortable(),
             Text::make('e-mail'),
-            Number::make('total_price'),
-            Text::make('phone'),
-            Text::make('address'),
-            //Enum::make('status')->attach(StatusEnum::class),
+            Number::make('итоговаая цена','total_price'),
+            Text::make('телефон','phone'),
+            Text::make('адресс','address'),
+            // Enum::make('статус','status_id')->attach(Status::class),//если писать status то выдаст исключение , а status_id писать не получистя так как не ттакого поля
+            Select::make('статус','status')->options(['accepted'=>'accepted','
+                in_proccess'=>'in_proccess',
+                'cancelled'=>'cancelled']),
         ];
 	}
     // protected function formFields(): iterable
