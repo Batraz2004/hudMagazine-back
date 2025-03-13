@@ -1,0 +1,11 @@
+actor: ApiTester
+suite_namespace: Tests\Api
+modules:
+    enabled:
+        - REST:
+            url: /api/v1
+            depends: Laravel
+        - \Helper\Api
+    config:
+        - Laravel:
+            environment_file: .env.testing
