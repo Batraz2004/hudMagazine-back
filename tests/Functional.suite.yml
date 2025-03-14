@@ -5,10 +5,16 @@
 # Include one of framework modules (Symfony, Yii2, Laravel, Phalcon5) to use it
 # Remove this suite if you don't use frameworks
 
-actor: FunctionalTester
+#actor: FunctionalTester
+#modules:
+#    enabled:
+#        - Laravel:
+#            environment_file: .env.testing
+#        - \AppBundle\Helper\Functional
+#step_decorators: ~
+class_name: FunctionalTester
 modules:
     enabled:
         - Laravel:
             environment_file: .env.testing
         - \AppBundle\Helper\Functional
-step_decorators: ~

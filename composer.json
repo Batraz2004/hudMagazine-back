@@ -21,7 +21,9 @@
     "require-dev": {
         "codeception/codeception": "^5.2",
         "codeception/module-asserts": "^3.0",
+        "codeception/module-db": "^3.2",
         "codeception/module-laravel": "^3.2",
+        "codeception/module-phpbrowser": "*",
         "codeception/module-rest": "^3.4",
         "codeception/module-webdriver": "^3.2",
         "fakerphp/faker": "^1.9.1",
@@ -31,8 +33,7 @@
         "nunomaduro/collision": "^6.4",
         "pestphp/pest": "^1.22",
         "pestphp/pest-plugin-laravel": "^1.2",
-        "spatie/laravel-ignition": "^1.0",
-        "codeception/module-phpbrowser": "*"
+        "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
         "psr-4": {

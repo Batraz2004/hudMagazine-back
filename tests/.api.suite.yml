@@ -3,8 +3,8 @@ suite_namespace: Tests\Api
 modules:
     enabled:
         - REST:
-            url: /api/v1
-            depends: Laravel
+            url: http://localhost:81 #/api/
+            depends: Laravel #Laravel
         - \Helper\Api
     config:
         - Laravel:

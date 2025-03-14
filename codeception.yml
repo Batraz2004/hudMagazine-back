@@ -1,7 +1,7 @@
-namespace: Tests
+namespace: Test
 support_namespace: Support
 paths:
-    tests: tests
+    tests: tests/Api
     output: tests/_output
     data: tests/Support/Data
     support: tests/Support
@@ -10,3 +10,24 @@ actor_suffix: Tester
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+suites:
+    Api:
+        actor: ApiTester
+        path: ./tests/Api
+        modules:
+           enabled:
+                - Asserts
+                - REST:
+                    url: http://localhost:81/api
+                    depends: PhpBrowser #PhpBrowser
+                - Db:
+                    dsn: 'mysql:host=localhost;dbname=#dbname#'
+                    user: '#dbusername#'
+                    password: '#dbpassword#'
+                    populate: true
+                    cleanup: true
+                    dump:
+                        - 'tests/_data/magazine.sql'
+
+
+
