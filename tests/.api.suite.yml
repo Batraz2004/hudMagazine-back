@@ -8,4 +8,4 @@ modules:
         - \Helper\Api
     config:
         - Laravel:
-            environment_file: .env.testing
+                environment_file: .env.testing
