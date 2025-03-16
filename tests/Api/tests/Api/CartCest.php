@@ -40,9 +40,9 @@ final class CartCest
 
     public function addProductToCart(ApiTester $I)
     {
-
+        //проверка токена пользователя:
         $I->haveHttpHeader('Authorization','Bearer '.$this->succesToken);
-        // $I->haveHttpHeader('amBearerAuthenticated', $this->succesToken);
+        // $I->amBearerAuthenticated($this->succesToken);
         $I->sendPost('/cart/add',[
             'id' => $this->goodsId,
             'quantity' => $this->quantity,
@@ -51,15 +51,31 @@ final class CartCest
         $result = $I->grabResponse();
         $result = json_decode($result, true);
 
-        echo '<pre>'.htmlentities(print_r($result, true)).'</pre>';;
-        // $I->amBearerAuthenticated($token);
-        // $I->assertEquals($cartArr['data'][0]['items'][0]['active'], 1);
-		// $I->assertEquals($cartArr['data'][0]['currentOrderAmount'], 1200);
+        // $I->comment('Полученный ответ:');
+        echo '<pre>'.htmlentities(print_r(['запрос сделан успешно',$result], true)).'</pre>';;
+        $I->seeResponseCodeIs(200);
+
+        //проверка токена пользователя:
+        $I->haveHttpHeader('Authorization','Bearer '.$this->succesToken);
+        //запрос на получение :
+        $I->sendGet('/cart/get');
+        $result = $I->grabResponse();
+        $result = json_decode($result, true)['data']['cart_items'];
+        echo '<pre>'.htmlentities(print_r(['запрос сделан успешно',$result], true)).'</pre>';;
+        $I->seeResponseCodeIs(200);
+        // $I->assertEquals($cartArr['data'][0], 1);
     }
 
-    // public function getCart()
+    // public function getCart(ApiTester $I)
     // {
-
+    //     //проверка токена пользователя:
+    //     $I->haveHttpHeader('Authorization','Bearer '.$this->succesToken);
+    //     //запрос на получение :
+    //     $I->sendGet('/cart/get');
+    //     $result = $I->grabResponse();
+    //     $result = json_decode($result, true)['data']['cart_items'];
+    //     echo '<pre>'.htmlentities(print_r(['запрос сделан успешно',$result], true)).'</pre>';;
+    //     $I->seeResponseCodeIs(200);
     // }
 
     // public function clearCart()
